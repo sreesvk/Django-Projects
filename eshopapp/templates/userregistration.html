@@ -1,0 +1,66 @@
+{% extends 'masteruser.html' %}
+{% load static %}
+{% block content %}
+
+<div class="breacrumb-section">
+    <div class="container">
+    <div class="row">
+    <div class="col-lg-12">
+    <div class="breadcrumb-text">
+    <a href="#"><i class="fa fa-home"></i> Home</a>
+    <span>Register</span>
+    </div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+<div class="register-login-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="register-form">
+                    <h2>Register</h2>
+                        <form action="#">
+                            <div class="group-input">
+                                <label for="username">Name *</label>
+                                <input type="text"  name="user_register_name" id="user_register_name">
+                            </div>
+                            <div class="group-input">
+                                <label for="pass">Email *</label>
+                                <input type="text" name="user_register_email" id="user_register_email">
+                            </div>
+                            <div class="group-input">
+                                <label for="pass">Contact number *</label>
+                                <input type="text" name="user_register_number" id="user_register_number">
+                            </div>
+                            <div class="group-input">
+                                <label for="pass">Username *</label>
+                                <input type="text"name="user_register_user" id="user_register_user">
+                            </div>
+                            <div class="group-input">
+                                <label for="pass">Password *</label>
+                                <input type="password" name="user_password" id="user_password" >
+                            </div>
+                            <div class="group-input">
+                                <label for="con-pass">Confirm Password *</label>
+                                <input type="password" name="user_con_password" id="user_con_password" >
+                            </div>
+                            <div class="group-input">
+                                <label for="con-pass">Profile pic *</label>
+                                <input type="file" name="user_register_pic" id="user_register_pic">
+                            </div>
+
+                                <button type="submit" class="site-btn register-btn">REGISTER</button>
+                        </form>
+                        <div class="switch-login">
+                            <a href="/userlogin/" class="or-login">Or Login</a>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

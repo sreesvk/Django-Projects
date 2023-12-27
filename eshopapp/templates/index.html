@@ -1,0 +1,1152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoppy</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/themify-icons.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/home.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/usermaster.css">
+    <link rel="stylesheet" href="../static/css/plugins.css">
+<link rel="stylesheet" href="../static/css/font-awesome.min.css">
+<link rel="stylesheet" href="../static/css/font.css">
+<link href="https://fonts.cdnfonts.com/css/savoye-let" rel="stylesheet">
+<script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/popper.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/main.js"></script>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v84a3a4012de94ce1a686ba8c167c359c1696973893317" integrity="sha512-euoFGowhlaLqXsPWQ48qSkBSCFs3DPRyiwVu3FjR96cMPx+Fr+gpWRhIafcHwqwCqWS42RZhIudOvEI+Ckf6MA==" data-cf-beacon='{"rayId":"82d051f7af03f3e1","b":1,"version":"2023.10.0","token":"cd0b4b3a733644fc843ef0b185f98241"}' crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">   
+</head>
+<body>
+    <header class="header-section">
+        <div class="header-top" style="background-color: white;">
+            <div class="container">
+                <div class="ht-left">
+                    <div class="mail-service">
+                        
+                    </div>
+                    <div class="phone-service">
+                        <i class=" fa fa-phone"></i>
+                            +91-8921457589
+                    </div>
+                </div>
+                <div class="ht-right">
+                    {% if 'user' not in request.session %}
+                        <a href="/userlogin" class="login-panel"><i class="fa fa-user"></i>Login</a>
+                    {% endif %}
+                    {% if 'user' in request.session %}
+                        <a href="/useraccount" class="login-panel"><i class="fa fa-user"></i>{{cart_user}}</a>
+                    {% endif %}
+                    <div class="lan-selector">
+                    </div>
+                    <div class="top-social">
+                        <a href="#"><i class="ti-facebook"></i></a>
+                        <a href="#"><i class="ti-twitter-alt"></i></a>
+                        <a href="#"><i class="ti-linkedin"></i></a>
+                        <a href="#"><i class="ti-pinterest"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="inner-header">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2">
+                        <div class="logo">
+                            <a href="/index">
+                            <img src="../static/img/logo.png" alt>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-7">
+                        <div class="advanced-search">
+                            <button type="button" class="category-btn">All Categories</button>
+                            <div class="input-group">
+                                <form action="/search"method="GET" >
+                                    {% csrf_token %}
+                                    <input type="text" placeholder="What do you need?" name="search" id="search" style="color: black;">
+                                    <button type="submit"><i class="ti-search"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% if 'user' in request.session %}
+                    <div class="col-lg-3 text-right col-md-3">
+                        <ul class="nav-right">
+                            <li class="cart-icon">
+                                <a href="#"><i class="icon_heart_alt"></i><span>{{listcount}}</span></a>
+                                <div class="cart-hover">
+                                    <div class="select-items">
+                                        <table>
+                                            <tbody>
+                                                {% for x in list %}
+                                                <tr>
+                                                    <td class="si-pic"><img src="/media/{{x.list_image}}" width="50px" alt></td>
+                                                    <td class="si-text">
+                                                        <div class="product-selected">
+                                                        <p>{{x.list_price}}</p>
+                                                        <h6>{{x.list_name}}</h6>
+                                                        </div>
+                                                    </td>
+                                                    <td class="si-close"><a href="/delfromlist/{{x.id}}"><i class="ti-close"></i></a></i></td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="select-button">
+                                        <a href="/wishlist" class="primary-btn view-card">VIEW WISHLIST</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="cart-icon">
+                                <a href="#"><i class="icon_bag_alt"></i><span>{{cartcount}}</span></a>
+                                <div class="cart-hover">
+                                    <div class="select-items">
+                                        <table>
+                                            <tbody>
+                                                {% for x in cart %}
+                                                <tr>
+                                                    <td class="si-pic"><img src="/media/{{x.cart_image}}" width="50px" alt></td>
+                                                    <td class="si-text">
+                                                        <div class="product-selected">
+                                                        <p>{{x.cart_price}} x {{x.cart_quantity}}</p>
+                                                        <h6>{{x.cart_name}}</h6>
+                                                        </div>
+                                                    </td>
+                                                    <td class="si-close"><a href="/delfromcart/{{x.id}}"><i class="ti-close"></i></a></i></td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="select-total">
+                                        <span>total:</span>
+                                        <h5>{{total}}</h5>
+                                    </div>
+                                    <div class="select-button">
+                                        <a href="/shoppy-cart" class="primary-btn view-card">VIEW CART</a>
+                                        <form action="/check-out/" method="POST">
+                                            {% csrf_token %}
+                                            <button type="submit" class="primary-btn checkout-btn" style="width: 100%;" >CHECK OUT</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="cart-price">{{total}}</li>
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="nav-item">
+            <div class="container">
+                <nav class="nav-menu mobile-menu">
+                    <ul>
+                        <li><a href="#" > <i class="ti-menu"></i> All Categories</a>
+                            <ul class="dropdown">
+                                {% for x in pro_cat %}
+                                <li><a href="/products/{{x.id}}">{{x.cat_name}}</a></li>
+                                {% endfor %}
+                            
+                            </ul>
+                        </li>
+                        
+                        <li class="active"><a href="index/">Home</a></li>
+                        <li><a href="/prducts/0">Shop</a></li>
+                        <li><a href="/contact/">Contact</a></li>
+                        {% if 'user' in request.session %}
+                        <li><a href="#"><i class="ti-menu"></i> My Account</a>
+                            <ul class="dropdown">
+                            <li><a href="/useraccount/">Profile</a></li>
+                            <li><a href="/purchased/">My orders</a></li>
+                            <li><a href="/shoppy-cart">My Cart</a></li>
+                            <li><a href="/logout/">Logout</a></li>
+                            </ul>
+                            </li>
+                        {% endif %}
+                        
+                        
+
+                        {% if 'user' not in request.session %}
+                        <li><a href="/userregistration/">Register</a></li>
+                        <li><a href="/userlogin/">Login</a></li>
+                        
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <section class="hero-section">
+        <div class="hero-items owl-carousel">
+            
+
+
+
+
+<!-- 
+            <div class="porto-carousel owl-carousel has-ccols ccols-1 mb-0 home-banner wpb_custom_c86c2fb53cae9eced42d4b8900a042f3 nav-pos-inside nav-style-4 show-nav-hover" data-plugin-options="{&quot;themeConfig&quot;:true,&quot;stagePadding&quot;:0,&quot;margin&quot;:0,&quot;autoplay&quot;:false,&quot;mouseDrag&quot;:true,&quot;touchDrag&quot;:true,&quot;autoplayTimeout&quot;:5000,&quot;autoplayHoverPause&quot;:false,&quot;items&quot;:1,&quot;xl&quot;:1,&quot;lg&quot;:1,&quot;md&quot;:1,&quot;sm&quot;:1,&quot;xs&quot;:1,&quot;nav&quot;:&quot;yes&quot;,&quot;dots&quot;:false,&quot;animateIn&quot;:&quot;&quot;,&quot;animateOut&quot;:&quot;&quot;,&quot;loop&quot;:&quot;yes&quot;,&quot;center&quot;:false,&quot;video&quot;:false,&quot;lazyLoad&quot;:false,&quot;fullscreen&quot;:false}">
+                <div id="interactive-banner-wrap-lscw" class="porto-ibanner mb-0" style="background:#ebebeb;min-height:calc(100vh - 50px);">
+                    <img alt="" width="1920" height="980" class="porto-lazyload porto-ibanner-img" src="wp-content/uploads/sites/88/porto_placeholders/100x51.jpg" data-oi="https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/2020/01/shop19_home_slide1.jpg" srcset="https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/porto_placeholders/100x51.jpg 100w" data-srcset="https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/2020/01/shop19_home_slide1.jpg 1920w, https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/2020/01/shop19_home_slide1-1024x523.jpg 1024w, https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/2020/01/shop19_home_slide1-768x392.jpg 768w, https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/2020/01/shop19_home_slide1-1536x784.jpg 1536w, https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/2020/01/shop19_home_slide1-640x327.jpg 640w, https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/2020/01/shop19_home_slide1-400x204.jpg 400w, https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/2020/01/shop19_home_slide1-450x231.jpg 450w, https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/2020/01/shop19_home_slide1-600x306.jpg 600w" sizes="(max-width: 1920px) 100vw, 1920px">
+                    <div class="porto-ibanner-desc no-padding d-flex">
+                        <div class="container">
+                            <div class="porto-ibanner-container">
+                                <div class="porto-ibanner-layer pc-max-width-100 wpb_custom_2c5109c031829f9c54153ed0e6239ff6 banner-pos-23263caec78a33be6183412dcc2f8d49">
+                                    <div class="porto-animation mb-0 overflow-hidden" >
+                                        <h5 style="font-size: 1.625em;color: rgba(34,37,41,0.7);line-height: 1.1;font-weight:500;letter-spacing:.125em" data-appear-animation="maskUp" data-appear-animation-delay="200" class="vc_custom_heading mb-0 align-left" >Find the Boundaries. Push Through!</h5>
+                                    </div>
+                                    <h2 style="font-size: 5em;line-height: 1;letter-spacing:0.15em" data-appear-animation="fadeInUp" data-appear-animation-delay="400" class="vc_custom_heading mb-1 custom-font4 align-left" >Smartphones</h2>
+                                    <h3 style="font-size: 7.1875em;line-height: 1;letter-spacing:.15em" data-appear-animation="fadeInUp" data-appear-animation-delay="600" class="vc_custom_heading mb-3 align-left" >70% OFF</h3>
+                                    <h5 style="font-size: 2.25em;line-height: 0.9;letter-spacing:-.02em" data-appear-animation="fadeInUp" data-appear-animation-delay="800" class="vc_custom_heading mb-2 me-3 me-xl-4 coupon-sale-text background-color-secondary pull-right align-left heading-light" ><sup>$</sup>199<sup>99</sup></h5>
+                                    <h5 style="font-size: 1.125em;line-height: 1;letter-spacing:-.02em" data-appear-animation="fadeInUp" data-appear-animation-delay="1000" class="vc_custom_heading mb-4 pull-right me-3 vc_custom_1595243392884 align-left text-uppercase" >Starting At</h5>
+                                    <div class="vc_btn3-container  mb-0 vc_btn3-inline" >
+                                        <button  data-appear-animation="fadeInUp"  data-appear-animation-delay="1000" class="vc_btn3 vc_btn3-shape-default wpb_custom_6687b26f39488ddbb85ddb3c1ce8e111 btn btn-modern btn-xl btn-dark">Shop Now!</button>	
+                                    </div>
+                                    <style>.banner-pos-23263caec78a33be6183412dcc2f8d49 {left:8%;right: unset;top: 50%;bottom: unset;transform: translateY(-50%);}</style>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="interactive-banner-wrap-904x" class="porto-ibanner mb-0" style="background:#ebebeb;min-height:calc(100vh - 50px);">
+                    <img alt="" width="1920" height="980" class="porto-lazyload porto-ibanner-img" src="wp-content/uploads/sites/88/porto_placeholders/100x51.jpg" data-oi="https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/2020/01/shop19_home_slide2.jpg" srcset="https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/porto_placeholders/100x51.jpg 100w" data-srcset="https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/2020/01/shop19_home_slide2.jpg 1920w, https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/2020/01/shop19_home_slide2-1024x523.jpg 1024w, https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/2020/01/shop19_home_slide2-768x392.jpg 768w, https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/2020/01/shop19_home_slide2-1536x784.jpg 1536w, https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/2020/01/shop19_home_slide2-640x327.jpg 640w, https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/2020/01/shop19_home_slide2-400x204.jpg 400w, https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/2020/01/shop19_home_slide2-450x231.jpg 450w, https://www.portotheme.com/wordpress/porto/shop19/wp-content/uploads/sites/88/2020/01/shop19_home_slide2-600x306.jpg 600w" sizes="(max-width: 1920px) 100vw, 1920px">
+                    <div class="porto-ibanner-desc no-padding d-flex">
+                        <div class="container">
+                            <div class="porto-ibanner-container">
+                                <div class="porto-ibanner-layer pc-max-width-100 wpb_custom_2c5109c031829f9c54153ed0e6239ff6 banner-pos-56f47a1f8d3503ea6034df252cee96bb">
+                                    <h5 style="font-size: 1.625em;color: rgba(34,37,41,0.7);line-height: 1.1;font-weight:500;letter-spacing:.22em" class="vc_custom_heading align-left text-uppercase" >It’s the best time of the year!</h5>
+                                    <h2 style="font-size: 4.5em;line-height: 1;letter-spacing:0.12em" class="vc_custom_heading mb-1 custom-font4 align-left" >Hot Collections</h2>
+                                    <h3 style="font-size: 7.1875em;line-height: 1;letter-spacing:.15em" class="vc_custom_heading mb-3 align-left" >50% OFF</h3>
+                                    <h5 style="font-size: 2.25em;line-height: 0.9;letter-spacing:-.02em" class="vc_custom_heading mb-2 me-3 me-xl-4 coupon-sale-text background-color-secondary pull-right align-left heading-light" ><sup>$</sup>199<sup>99</sup></h5>
+                                    <h5 style="font-size: 1.125em;line-height: 1;letter-spacing:-.02em" class="vc_custom_heading mb-4 pull-right me-3 vc_custom_1587538952244 align-left text-uppercase" >Starting At</h5><div class="vc_btn3-container  mb-0 vc_btn3-inline" >
+                                    <button class="vc_btn3 vc_btn3-shape-default wpb_custom_6687b26f39488ddbb85ddb3c1ce8e111 btn btn-modern btn-xl btn-dark">Shop Now!</button>	</div>
+                                    <style>.banner-pos-56f47a1f8d3503ea6034df252cee96bb {right:8%;left: unset;top: 50%;bottom: unset;transform: translateY(-50%);}</style>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+
+
+
+
+            <div class="single-hero-items set-bg" data-setbg="../static/img/home12.jpg">
+                <div class="container">
+                    <div class="row">
+                        <div class="porto-ibanner-layer pc-max-width-100 wpb_custom_2c5109c031829f9c54153ed0e6239ff6 banner-pos-23263caec78a33be6183412dcc2f8d49">
+                            <div class="porto-animation mb-0 overflow-hidden" >
+                                <h5 style="font-size: 1.625em;color: rgba(34,37,41,0.7);line-height: 1.1;font-weight:500;letter-spacing:.125em" data-appear-animation="maskUp" data-appear-animation-delay="200" class="vc_custom_heading mb-0 align-left" >Find the Boundaries. Push Through!</h5>
+                            </div>
+                            <h2 style="font-size: 5em;line-height: 1;letter-spacing:0.15em" data-appear-animation="fadeInUp" data-appear-animation-delay="400" class="vc_custom_heading mb-1 custom-font4 align-left" >Smartphones</h2>
+                            <h3 style="font-size: 7.1875em;line-height: 1;letter-spacing:.15em" data-appear-animation="fadeInUp" data-appear-animation-delay="600" class="vc_custom_heading mb-3 align-left" >70% OFF</h3>
+                            
+                            <a href="/products/0" class="primary-btn" style="color: white;">Shop Now</a>
+                            <style>.banner-pos-23263caec78a33be6183412dcc2f8d49 {left:8%;right: unset;top: 50%;bottom: unset;transform: translateY(-50%);}</style>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="single-hero-items set-bg" data-setbg="../static/img/hero.jpg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <span  style="color: white;">Bag,Accessories</span>
+                            <h1 style="color: white;">Best Deals!!</h1>
+                            <p style="color: white;">upto 30% off for Selected Purchases.</p>
+                            <a href="/products/0" class="primary-btn" style="color: white;">Shop Now</a>
+                        </div>
+                    </div>
+                    <div class="off-card">
+                        <h2 >Sale <span>30%</span></h2>
+                    </div>
+                </div>
+            </div>
+            <div class="single-hero-items set-bg" data-setbg="../static/img/hero-2.jpg">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <span>Bag,kids</span>
+                            <h1>Children's Day Deals!</h1>
+                            <p>upto 30% off for every Deals!</p>
+                            <a href="/products/0" class="primary-btn">Shop Now</a>
+                        </div>
+                    </div>
+                    <div class="off-card">
+                        <h2>Sale <span>30%</span></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="category-fashion-clothes">
+        <div class="d-flex justify-content-between">
+            <div class="p-3 ">
+                <h4 class="cat-title" style="font-size: 1.375rem;font-weight: 600;letter-spacing: .025em;padding: 16px; text-align: center; text-transform: uppercase;">
+                    Fashion &amp; Clothes
+                </h4>
+            </div>
+            <div class="p-2">
+                <a href="/products/1" class="btn btn-modern btn-dark" style="float: right;font-size: 1rem;letter-spacing: .025em;margin: 16px; color: white;background-color: black; float: right; width: 170px;text-transform: uppercase; padding: 11px;">View All</a>
+            </div>                
+        </div>
+
+        <div class="product-list">
+            <div class="row" style="margin-left: 2rem;margin-right: 2rem;">
+                {% for x in m_p %}
+                <div class="col-sm-2">
+                    <div class="product-grid" >
+                        <div class="product-image">
+                            <a href="/pd/{{x.product_id}}" class="image">
+                                <img class="img-1" style="height:250px;width:200px;" src="/media/{{x.product_image}}">
+                                <img class="img-2" style="height:250px;width:200px;" src="/media/{{x.product_image}}">
+                            </a>
+                            <ul class="product-links">
+                                <li><a href="/addtolist/{{x.id}}"><i class="fa fa-heart"></i></a></li>
+                                <li><a href="/addtocart/{{x.id}}"><i class="fa fa-shopping-cart"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="product-content">
+                            <ul class="rating">
+                            </ul>
+                            <h3 class="title"><a href="#">{{x.product_name}}</a></h3>
+                            <div class="font-weight-bold">₹{{ x.product_price }}</div>
+                        </div>
+                    </div>
+                </div>
+                    {% endfor %}
+                    <!-- 
+                <div class="col-sm-2">
+                    <div class="product-inner" style="width: 190px; height: 238px;" >
+                        <div class="product-image" >
+                            <a href="#">
+                                <img width="190px" height="238px" src="../static/img/prdt/product1-300x375.jpg" class="porto-lazyload  wp-post-image" alt="" decoding="async" />
+                            </a>
+                        </div>
+                        <div class="product-contents">
+                            <div class="add-to-wishlist" style="    float: right;position: relative;z-index: 2;margin-left: 10px;">
+                                <a href=""><i class="fa fa-heart-o" aria-hidden="true"></i></i></a>
+                            </div>
+                            <a class="product-loop-title" style="font-size: 0.92rem;font-weight: 500;line-height: 1.35;margin-bottom: 0.45rem;font: var(--porto-h3-fst,normal) var(--porto-h3-fw,700) var(--porto-h3-fs,1.8em)/var(--porto-h3-lh,32px) var(--porto-h3-ff,var(--porto-body-ff)),sans-serif;
+                            color: var(--porto-h3-color,var(--porto-heading-color));
+                            letter-spacing: var(--porto-h3-ls,-0.05em); text-align: center;" href="product/cotton-bomber-jacket/index.html">
+                                <span class="woocommerce-loop-product__title">Cotton Bomber Jacket</span>	
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                    -->
+            </div>
+        </div>
+        <div class="product-off" style="margin-left: 2rem;margin-right: 2rem;margin-top: 2rem;">
+            <div class="row">
+                <div class="col-md-12 col-lg-6">
+                    <div class="col-inner">
+                        <div style="background:#6eb2da;min-height:170px;">
+                            <img alt="" width="836" height="180" src="../static/img/off_home_banner1.jpg">
+                            <div class="no-padding d-flex" style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;">
+                                <div class="bannertexts">
+                                    <h5 style="font-size: 0.8125em;color: rgba(255,255,255,0.7);line-height: 1;font-weight:500;letter-spacing:.08em" class="vc_custom_heading mb-2 align-left" >Find the Boundaries. Push Through!</h5>
+                                    <h3 style="color: rgba(255,255,255,0.7);font-size: 2.275em;line-height: 1;letter-spacing:.2em;font-family: 'handlee','Savoye LET Plain';" class="vc_custom_heading custom-font4 mb-0 align-left heading-light">Summer Sale</h3>
+                                    <h4 style="color: rgba(255,255,255,0.7);font-size: 4em;line-height: 1" class="vc_custom_heading mb-0 align-left heading-light" >30% OFF</h4>
+                                    <style>
+                                        .bannertexts {left:8%;right: unset;top: 50%;bottom: unset;transform: translateY(-50%);    text-align: left;
+                                        font-size: 1rem;
+                                        position: absolute;
+                                        z-index: 10;}</style>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6">
+                    <div class="col-inner">
+                        <div style="background:#f4f4f4;min-height:170px;">
+                            <img alt="" width="835" height="180" src="../static/img/off_home_banner2.jpg" style="display: block;
+                            position: relative;">
+                            <div class="no-padding d-flex" style="    position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;">
+                                <div class="bannerdiv1">
+                                    <h3 class="bandiv1h3 mb-1" >DEAL PROMOS</h3>
+                                    <h5 class="bandiv1h5 mb-0" >STARTING AT $99</h5>
+                                </div>
+                                <div class="bannertext1">
+                                    <h6 class="bantext1h6 bantexth6 background-color-dark align-left heading-light" >50
+                                    <small class="bantext1h6small">
+                                        <sup class="smallsup1">%</sup>
+                                        <sub class="smallsup2">OFF</sub></small></h6>
+                                </div>
+                                <div class="bannertext2">
+                                    <h6 class="bantext2h6 bantexth6 background-color-dark align-left heading-light" >30
+                                    <small class="bantext1h6small">
+                                    <sup class="smallsup1">%</sup>
+                                    <sub class="smallsup2">OFF</sub></small></h6>
+                                </div>
+                                <div class="bannertext3">
+                                    <h6 class="bantext3h6 bantexth6 background-color-dark align-left heading-light" >70
+                                    <small class="bantext1h6small">
+                                    <sup class="smallsup1">%</sup>
+                                    <sub class="smallsup2">OFF</sub></small></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <style>
+                    .bannerdiv1 
+                    {
+                        left: 50%;
+                        right: unset;
+                        top: 50%;
+                        bottom: unset;
+                        transform: translate(-50%, -50%);    
+                        text-align: left;
+                        font-size: 1rem;
+                        position: absolute;
+                        z-index: 10;
+                        width:70%;
+                    }
+                    .bandiv1h3{
+                        font-size: 2.3125em;
+                        line-height: 1;
+                        text-align: center;
+                        letter-spacing:.01em;
+                    }
+                    .bandiv1h5{
+                        font-size: 1.5625em;
+                        color: #777777;
+                        line-height: 1.2;
+                        text-align: center;
+                        font-weight:600
+                    }
+
+                    .bantexth6{
+                        line-height: 1;
+                        font-weight:700;
+                        letter-spacing:-.08em;
+                        color: #ffffff !important;background-color: #222529 !important;
+                        width: 2.25em;
+                        height: 2.25em;
+                        padding-top: calc(1.125em - 0.5em); 
+                        text-align: center;
+                        border-radius: 50%;
+                    }
+                    .bantext1h6{
+                        font-size: 2.1875em;
+                    }
+
+                    .bantext2h6{
+                        font-size: 1.3475em;
+                    }
+
+                    .bantext3h6{
+                        font-size: 1.6em;
+                    }
+                    .bantext1h6small{
+                        letter-spacing: -0.025em;font-size: 70%;display: inline-block;font-weight: inherit;
+                    }
+                    .smallsup1{
+                        position: static;font-size: 75%;
+                    }
+                    .smallsup2{
+                        display: block;
+                        font-size: 36%;
+                        line-height: 1;
+                        position: static;
+                        font-weight: 400;
+                        letter-spacing: 0;
+                        padding-left: 0.1em;
+                        letter-spacing: -.025em;
+                        opacity: .5;
+                    }
+                    .bannertext1 {
+                        left:6%;
+                        right: unset;
+                        top: 50%;
+                        bottom: unset;
+                        transform: translateY(-50%);text-align: left;
+                        font-size: 1rem;
+                        position: absolute;
+                        z-index: 10;
+                    }
+                    .bannertext2 {
+                        right:5%;
+                        left: unset;
+                        top:15%; bottom: unset;text-align: left;
+                        font-size: 1rem;
+                        position: absolute;
+                        z-index: 10;
+                    }
+                    .bannertext3 {right:9%;left: unset;bottom:12%; top: unset;text-align: left;
+                                        font-size: 1rem;
+                                        position: absolute;
+                                        z-index: 10;}
+
+                </style>
+            </div>
+        </div>
+
+        
+            <!-- 
+        <div class="product-off" style="margin-left: 2rem;margin-right: 2rem;margin-top: 2rem;">
+            <div class="row">
+                <div class="col-md-12 col-lg-6">
+                    <div class="col-inner">
+                        <div style="background:#f4f4f4;min-height:170px;">
+                            <img alt="" width="835" height="180" src="../static/img/off_home_banner1.jpg">
+                            <div class="no-padding d-flex" style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;">
+                                <div class="bannertexts">
+                                    <h5 style="font-size: 0.8125em;color: rgba(255,255,255,0.7);line-height: 1;font-weight:500;letter-spacing:.08em" class="vc_custom_heading mb-2 align-left" >Find the Boundaries. Push Through!</h5>
+                                    <h3 style="color: rgba(255,255,255,0.7);font-size: 2.275em;line-height: 1;letter-spacing:.2em;font-family: 'handlee','Savoye LET Plain';" class="vc_custom_heading custom-font4 mb-0 align-left heading-light">Summer Sale</h3>
+                                    <h4 style="color: rgba(255,255,255,0.7);font-size: 4em;line-height: 1" class="vc_custom_heading mb-0 align-left heading-light" >30% OFF</h4>
+                                    <style>
+                                        .bannertexts {left:8%;right: unset;top: 50%;bottom: unset;transform: translateY(-50%);    text-align: left;
+                                        font-size: 1rem;
+                                        position: absolute;
+                                        z-index: 10;}</style>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            -->
+          
+        
+    </section>
+    <div class="banner-section spad">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg">
+                    <div class="single-banner" >
+                        <a href="/products/1">
+                            <img src="../static/img/fc.jpg" alt style="width: 220px;height: 123px;">
+                        <div class="inner-text">
+                            <h4 class="bannsech4">Fasion & Cloths</h4>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg">
+                    <div class="single-banner">
+                        <a href="/products/2">
+                        <img src="../static/img/ec.jpg" alt style="width: 220px;height: 123px;">
+                        <div class="inner-text">
+                            <h4 class="bannsech4">Electronics & computers</h4>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg">
+                    <div class="single-banner">
+                        <a href="/products/3">
+                        <img src="../static/img/tg.jpg" alt style="width: 220px;height: 123px;">
+                        <div class="inner-text">
+                            <h4 class="bannsech4">Toys & Games</h4>
+                        </div>
+                    </a>
+                    </div>
+                </div>
+                <div class="col-lg">
+                    <div class="single-banner">
+                        <a href="/products/5">
+                        <img src="../static/img/sf.jpg" alt style="width: 220px;height: 123px;">
+                        <div class="inner-text">
+                            <h4 class="bannsech4">Sports & Fitness</h4>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg">
+                    <div class="single-banner">
+                        <a href="/products/6">
+                        <img src="../static/img/gg.jpg" alt style="width: 220px;height: 123px;">
+                        <div class="inner-text">
+                            <h4 class="bannsech4">Gifts & Gadjets</h4>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .bannsech4{
+            font-weight: 600;padding: 2px 2px; font-size: 1rem;
+        }
+    </style>
+    <section class="women-banner spad">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="product-large set-bg" data-setbg="../static/img/products/women-large.jpg">
+                        <h2>Women’s</h2>
+                        <a href="#">Discover More</a>
+                    </div>
+                </div>
+                <div class="col-lg-8 offset-lg-1">
+                    <div class="filter-control">
+                        <ul>
+                            <li class="active">Clothings</li>
+                            <li>HandBag</li>
+                            <li>Shoes</li>
+                            <li>Accessories</li>
+                        </ul>
+                    </div>
+                    <div class="product-slider owl-carousel">
+                        {% for x in women_products %}
+                        <div class="product-item">
+                            <div class="pi-pic">
+                                <a href="/pd/{{x.product_id}}" class="image">
+                                    <img src="/media/{{x.product_image}}" alt>
+                                   </a>
+                            
+                            <div class="icon">
+                                <i class="w-icon active"><a href="/addtolist/{{x.id}}"><i class="icon_heart_alt"></i></a></i>
+                            </div>
+                            <ul>
+                            <li class="w-icon active"><a href="/addtocart/{{x.id}}"><i class="icon_bag_alt"></i></a></li>
+                            
+                            </ul>
+                            </div>
+                            <div class="pi-text">
+                                <a href="#">
+                                <h5>{{x.product_name}}</h5>
+                                </a>
+                                <div class="product-price">
+                                    ₹{{x.product_price}}
+                                </div>
+                            </div>
+                        </div>
+                        {%endfor%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="category-electronics-computers">
+        <div class="d-flex justify-content-between">
+            <div class="p-3 ">
+                <h4 class="cat-title" style="font-size: 1.375rem;font-weight: 600;letter-spacing: .025em;padding: 16px; text-align: center; text-transform: uppercase;">
+                    ELECTRONICS &amp; COMPUTERS
+                </h4>
+            </div>
+            <div class="p-2">
+                <a href="/products/2" class="btn btn-modern btn-dark" style="float: right;font-size: 1rem;letter-spacing: .025em;margin: 16px; color: white;background-color: black; float: right; width: 170px;text-transform: uppercase; padding: 11px;">View All</a>
+            </div>                
+        </div>
+
+        <div class="product-list">
+            <div class="row" style="margin-left: 2rem;margin-right: 2rem;">
+                {% for x in e_c %}
+                <div class="col-sm-2">
+                    <div class="product-grid" >
+                        <div class="product-image">
+                            <a href="/pd/{{x.product_id}}" class="image">
+                                <img class="img-1" style="height:250px;width:200px;" src="/media/{{x.product_image}}">
+                                <img class="img-2" style="height:250px;width:200px;" src="/media/{{x.product_image}}">
+                            </a>
+                            <ul class="product-links">
+                                <li><a href="/addtolist/{{x.id}}"><i class="fa fa-heart"></i></a></li>
+                                <li><a href="/addtocart/{{x.id}}"><i class="fa fa-shopping-cart"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="product-content">
+                            <ul class="rating">
+                            </ul>
+                            <h3 class="title"><a href="#">{{x.product_name}}</a></h3>
+                            <div class="font-weight-bold">₹{{ x.product_price }}</div>
+                        </div>
+                    </div>
+                </div>
+                    {% endfor %}
+                    <!-- 
+                <div class="col-sm-2">
+                    <div class="product-inner" style="width: 190px; height: 238px;" >
+                        <div class="product-image" >
+                            <a href="#">
+                                <img width="190px" height="238px" src="../static/img/prdt/product1-300x375.jpg" class="porto-lazyload  wp-post-image" alt="" decoding="async" />
+                            </a>
+                        </div>
+                        <div class="product-contents">
+                            <div class="add-to-wishlist" style="    float: right;position: relative;z-index: 2;margin-left: 10px;">
+                                <a href=""><i class="fa fa-heart-o" aria-hidden="true"></i></i></a>
+                            </div>
+                            <a class="product-loop-title" style="font-size: 0.92rem;font-weight: 500;line-height: 1.35;margin-bottom: 0.45rem;font: var(--porto-h3-fst,normal) var(--porto-h3-fw,700) var(--porto-h3-fs,1.8em)/var(--porto-h3-lh,32px) var(--porto-h3-ff,var(--porto-body-ff)),sans-serif;
+                            color: var(--porto-h3-color,var(--porto-heading-color));
+                            letter-spacing: var(--porto-h3-ls,-0.05em); text-align: center;" href="product/cotton-bomber-jacket/index.html">
+                                <span class="woocommerce-loop-product__title">Cotton Bomber Jacket</span>	
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                    -->
+            </div>
+        </div>
+        <div class="product-off" style="margin-left: 2rem;margin-right: 2rem;margin-top: 2rem;">
+            <div class="row">
+                <div class="col-md-12 col-lg-6">
+                    <div class="col-inner">
+                        <div style="background:#6eb2da;min-height:170px;">
+                            <img alt="" width="836" height="180" src="../static/img/off_banner_4.png">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 col-lg-6">
+                    <div class="col-inner">
+                        <div style="background:#f4f4f4;min-height:170px;">
+                            <img alt="" width="835" height="180" src="../static/img/off_banner5.png" style="display: block;
+                            position: relative;">
+                            
+                        </div>
+                    </div>
+                </div>
+                <style>
+                    .bannerdiv1 
+                    {
+                        left: 50%;
+                        right: unset;
+                        top: 50%;
+                        bottom: unset;
+                        transform: translate(-50%, -50%);    
+                        text-align: left;
+                        font-size: 1rem;
+                        position: absolute;
+                        z-index: 10;
+                        width:70%;
+                    }
+                    .bandiv1h3{
+                        font-size: 2.3125em;
+                        line-height: 1;
+                        text-align: center;
+                        letter-spacing:.01em;
+                    }
+                    .bandiv1h5{
+                        font-size: 1.5625em;
+                        color: #777777;
+                        line-height: 1.2;
+                        text-align: center;
+                        font-weight:600
+                    }
+
+                    .bantexth6{
+                        line-height: 1;
+                        font-weight:700;
+                        letter-spacing:-.08em;
+                        color: #ffffff !important;background-color: #222529 !important;
+                        width: 2.25em;
+                        height: 2.25em;
+                        padding-top: calc(1.125em - 0.5em); 
+                        text-align: center;
+                        border-radius: 50%;
+                    }
+                    .bantext1h6{
+                        font-size: 2.1875em;
+                    }
+
+                    .bantext2h6{
+                        font-size: 1.3475em;
+                    }
+
+                    .bantext3h6{
+                        font-size: 1.6em;
+                    }
+                    .bantext1h6small{
+                        letter-spacing: -0.025em;font-size: 70%;display: inline-block;font-weight: inherit;
+                    }
+                    .smallsup1{
+                        position: static;font-size: 75%;
+                    }
+                    .smallsup2{
+                        display: block;
+                        font-size: 36%;
+                        line-height: 1;
+                        position: static;
+                        font-weight: 400;
+                        letter-spacing: 0;
+                        padding-left: 0.1em;
+                        letter-spacing: -.025em;
+                        opacity: .5;
+                    }
+                    .bannertext1 {
+                        left:6%;
+                        right: unset;
+                        top: 50%;
+                        bottom: unset;
+                        transform: translateY(-50%);text-align: left;
+                        font-size: 1rem;
+                        position: absolute;
+                        z-index: 10;
+                    }
+                    .bannertext2 {
+                        right:5%;
+                        left: unset;
+                        top:15%; bottom: unset;text-align: left;
+                        font-size: 1rem;
+                        position: absolute;
+                        z-index: 10;
+                    }
+                    .bannertext3 {right:9%;left: unset;bottom:12%; top: unset;text-align: left;
+                                        font-size: 1rem;
+                                        position: absolute;
+                                        z-index: 10;}
+
+                </style>
+            </div>
+        </div>
+
+        
+            <!-- 
+        <div class="product-off" style="margin-left: 2rem;margin-right: 2rem;margin-top: 2rem;">
+            <div class="row">
+                <div class="col-md-12 col-lg-6">
+                    <div class="col-inner">
+                        <div style="background:#f4f4f4;min-height:170px;">
+                            <img alt="" width="835" height="180" src="../static/img/off_home_banner1.jpg">
+                            <div class="no-padding d-flex" style="position: absolute;top: 0;left: 0;width: 100%;height: 100%;">
+                                <div class="bannertexts">
+                                    <h5 style="font-size: 0.8125em;color: rgba(255,255,255,0.7);line-height: 1;font-weight:500;letter-spacing:.08em" class="vc_custom_heading mb-2 align-left" >Find the Boundaries. Push Through!</h5>
+                                    <h3 style="color: rgba(255,255,255,0.7);font-size: 2.275em;line-height: 1;letter-spacing:.2em;font-family: 'handlee','Savoye LET Plain';" class="vc_custom_heading custom-font4 mb-0 align-left heading-light">Summer Sale</h3>
+                                    <h4 style="color: rgba(255,255,255,0.7);font-size: 4em;line-height: 1" class="vc_custom_heading mb-0 align-left heading-light" >30% OFF</h4>
+                                    <style>
+                                        .bannertexts {left:8%;right: unset;top: 50%;bottom: unset;transform: translateY(-50%);    text-align: left;
+                                        font-size: 1rem;
+                                        position: absolute;
+                                        z-index: 10;}</style>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            -->
+          
+        
+    </section>
+
+<!-- 
+<section class="catagory-s">
+    <div class="container">
+        <div class="row">
+            <div>
+                <h3 class="inner-text">CATEGORIES</h3>
+                <div class="container">
+                    <div class="row">
+                        <div class="product-slider owl-carousel">
+                           
+                            {% for x in cats %}
+                            <div class="product-item">
+                                <div class="pi-pic">
+                                    <a href="/products/{{x.id}}" class="pi-pic"><img src="/media/{{x.cat_image}}" alt></a>
+                                </div>
+                                <div class="pi-text">
+                                    <div class="catagory-name">
+                                        <a href="/products/{{x.id}}"class="catagory-name">{{x.cat_name}}</a></div>
+                                    
+                                        <div class="product-price">
+                                            <a href="/products/{{x.id}}" class="product-price">
+                                        {{x.cat_count}}
+                                        
+                                        Products</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {%endfor%}  
+                             
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section> -->
+    <!-- 
+    <section class="man-banner spad">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="filter-control">
+                        <ul>
+                            <li class="active">Clothings</li>
+                            <li>Backpacks</li>
+                            <li>Shoes</li>
+                            <li>Accessories</li>
+                        </ul>
+                    </div>
+                    <div class="product-slider owl-carousel">
+                        {% for x in men_products %}
+                        <div class="product-item">
+                            <div class="pi-pic">
+                                <img src="/media/{{x.product_image}}" alt>
+                                <div class="sale">Sale</div>
+                                <div class="icon">
+                                    <i class="w-icon active"><a href="/addtolist/{{x.id}}"><i class="icon_heart_alt"></i></a></i>
+                                </div>
+                                <ul>
+                                <li class="w-icon active"><a href="/addtocart/{{x.id}}"><i class="icon_bag_alt"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="pi-text">-->
+                                <!-- <div class="catagory-name">Coat</div> -->
+                                <!--<a href="#">
+                                <h5>{{x.product_name}}</h5>
+                                </a>
+                                <div class="product-price">
+                                    ₹{{x.product_price}}
+                                </div>
+                            </div>
+                        </div>
+                        {%endfor%}   
+                    </div>
+                </div>
+                <div class="col-lg-3 offset-lg-1">
+                    <div class="product-large set-bg m-large" data-setbg="../static/img/products/man-large.jpg">
+                        <h2>Men’s</h2>
+                        <a href="#">Discover More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+     -->
+     <div class="row top-row mb-5" style="  padding-top: 2rem;padding-bottom: 3rem;  padding-left: calc(4vw - 10px);
+     padding-right: calc(4vw - 10px);">
+        <div class="col-sm-6 col-md-6 col-lg-3" data-appear-animation="fadeInRight" data-appear-animation-delay="200">
+            <div class="wpb_wrapper vc_column-inner">
+                <div class="px-3 px-xl-4">
+                    <div class="porto-sicon-top">
+                        <div class="porto-just-icon-wrapper porto-icon none" style="color:#222529;font-size:35px;">
+                            <i class="Simple-Line-Icons-earphones-alt"></i>
+                        </div>    
+                    </div>
+                    <div class="porto-sicon-header">
+                        <h3 class="porto-sicon-title" style="font-weight:700;font-size:1.25rem;line-height:1.2;">CUSTOMER SUPPORT</h3>
+                        <p style="font-weight:600;font-size:0.875rem;line-height:1;color:#555555;">Need Assistence?</p>
+                    </div>
+                            <!-- header -->
+                    <div class="porto-sicon-description" style="font-size:0.8125rem;line-height:1.85;">
+                    </div>
+                        <!-- description -->
+                </div>
+                        <!-- porto-sicon-box -->
+            </div>
+        </div>
+    <div class="col-sm-6 vc_column_container col-md-6 col-lg-3" data-appear-animation="fadeInRight" data-appear-animation-delay="400">    
+        <div class="wpb_wrapper vc_column-inner">        
+            <div class="porto-sicon-box px-3 px-xl-4  wpb_custom_1efe903570d178ff0a9b7bfa5febd3a4 style_1 top-icon">
+                <div class="porto-sicon-top">
+                    <div class="porto-just-icon-wrapper porto-icon none" style="color:#222529;font-size:35px;"><i class="Simple-Line-Icons-credit-card"></i>
+                    </div>
+                </div>
+                <div class="porto-sicon-header"><h3 class="porto-sicon-title" style="font-weight:700;font-size:1.25rem;line-height:1.2;">SECURED PAYMENT</h3>
+                    <p style="font-weight:600;font-size:0.875rem;line-height:1;color:#555555;">Safe &amp; Fast</p>
+                </div>
+                 <!-- header -->
+                 <div class="porto-sicon-description" style="font-size:0.8125rem;line-height:1.85;"> </div>
+                 <!-- description -->
+            </div>
+                <!-- porto-sicon-box -->
+        </div>
+    </div>
+    <div class="col-sm-6 vc_column_container col-md-6 col-lg-3" data-appear-animation="fadeInRight" data-appear-animation-delay="600">
+        <div class="wpb_wrapper vc_column-inner">
+            <div class="porto-sicon-box px-3 px-xl-4  wpb_custom_1efe903570d178ff0a9b7bfa5febd3a4 style_1 top-icon">
+                <div class="porto-sicon-top">
+                    <div class="porto-just-icon-wrapper porto-icon none" style="color:#222529;font-size:35px;"><i class="Simple-Line-Icons-action-undo"></i>
+                    </div>
+                </div>
+                <div class="porto-sicon-header">
+                    <h3 class="porto-sicon-title" style="font-weight:700;font-size:1.25rem;line-height:1.2;">FREE RETURNS</h3><p style="font-weight:600;font-size:0.875rem;line-height:1;color:#555555;">Easy &amp; Free</p>
+                </div> <!-- header -->
+                <div class="porto-sicon-description" style="font-size:0.8125rem;line-height:1.85;"></div>   <!-- description -->
+            </div><!-- porto-sicon-box -->
+        </div>
+    </div>
+    <div class="col-sm-6 vc_column_container col-md-6 col-lg-3" data-appear-animation="fadeInRight" data-appear-animation-delay="800">
+        <div class="wpb_wrapper vc_column-inner">
+            <div class="porto-sicon-box px-3 px-xl-4  wpb_custom_1efe903570d178ff0a9b7bfa5febd3a4 style_1 top-icon">
+                <div class="porto-sicon-top">
+                    <div class="porto-just-icon-wrapper porto-icon none" style="color:#222529;font-size:35px;"><i class="porto-icon-shipping"></i>
+                    </div>
+                </div>
+                <div class="porto-sicon-header"><h3 class="porto-sicon-title" style="font-weight:700;font-size:1.25rem;line-height:1.2;">FREE SHIPPING</h3><p style="font-weight:600;font-size:0.875rem;line-height:1;color:#555555;">Orders Over $99</p>
+                </div>
+                <!-- header -->
+                <div class="porto-sicon-description" style="font-size:0.8125rem;line-height:1.85;">    </div> 
+                <!-- description -->
+            </div><!-- porto-sicon-box -->
+        </div>
+    </div>
+    </div>	
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10" style="padding-bottom: 1rem;">
+                    <form action="#" method="post" class="wpcf7-form init" aria-label="Contact form" novalidate="novalidate" data-status="init">
+                                
+                        <div class="d-md-flex align-items-center">
+                            <div class="me-md-5"><h4 class="widget-title mb-0">Subscribe newsletter</h4>
+                                <p class="mb-0">Get all the latest information on Events, Sales and Offers.</p>
+                            </div>
+                            <div class="widget_wysija_cont widget_wysija d-flex">
+                                <div class="wysija-paragraph">
+                                    <span class="wpcf7-form-control-wrap" data-name="your-email">
+                                        <input size="40" class="wpcf7-form-control wpcf7-text wpcf7-email wpcf7-validates-as-required wpcf7-validates-as-email form-control wysija-input" aria-required="true" aria-invalid="false" placeholder="Email address..." value="" type="email" name="your-email" />
+                                    </span>
+                                </div>
+                                <div class="wpcf7-submit-wrap">
+                                    <input class="wpcf7-form-control has-spinner wpcf7-submit btn btn-dark wysija-submit" type="submit" value="Subscribe" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wpcf7-response-output" aria-hidden="true">
+
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-2">
+                    <div class="col-sm">
+                        <a href="#"style="box-shadow: none;font-size: 18px;width: 40px;height: 40px;background: none;color: #222529; float: left;"><i class="fa fa-facebook" aria-hidden="true" ></i></a>
+                    </div>
+                    <div class="col-sm">
+                        <a href="#"style="box-shadow: none;font-size: 18px;width: 40px;height: 40px;background: none;color: #222529; float: left;"><i class="fa fa-twitter" aria-hidden="true"  ></i></a>
+                    </div>
+                    <div class="col-sm">
+                        <a href="#"style="box-shadow: none;font-size: 18px;width: 40px;height: 40px;background: none;color: #222529; float: left;"><i class="fa fa-linkedin" aria-hidden="true"  ></i></a>
+                    </div>
+                </div>
+                <!-- <aside id="text-10" class="widget widget_text" style="float: left;">			
+                    <div class="textwidget">
+                        <div class="wpcf7 no-js" id="wpcf7-f1528-o2" lang="en-US" dir="ltr">
+                            <div class="screen-reader-response">
+                                <p role="status" aria-live="polite" aria-atomic="true"></p>
+                                <ul>
+    
+                                </ul>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </aside> -->
+                <!-- <aside id="follow-us-widget-2" class="widget follow-us" style="float: left;">
+                    
+                </aside> -->
+            </div>
+           
+        </div>
+    </div>
+    <footer class="footer-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="footer-left">
+                        <div class="footer-logo">
+                            <a href="#"><img src="../static/img/logo.png" alt></a>
+                        </div>
+                        <ul>
+                            <li>Address: Palakkad,Kerala</li>
+                            <li>Phone: +91 8921457589</li>
+                            <li>Email: <a href="#" class="__cf_email__" >admin@shoppy.co.in</a></li>
+                        </ul>
+                        <div class="footer-social">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-pinterest"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 offset-lg-1">
+                    <div class="footer-widget">
+                        <h5>Information</h5>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="/check-out/">Checkout</a></li>
+                            <li><a href="/contact">Contact</a></li>
+                            <li><a href="#">Services</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="footer-widget">
+                        <h5>My Account</h5>
+                        <ul>
+                            <li><a href="/useraccount">My Account</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="/shoppy-cart">Shopping Cart</a></li>
+                            <li><a href="/products/0">Shop</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="newslatter-item">
+                        <h5>Join Our Newsletter Now</h5>
+                        <p>Get E-mail updates about our latest shop and special offers.</p>
+                        <form action="#" class="subscribe-form" method="post">
+                            <input type="text" placeholder="Enter Your Mail">
+                            <button type="button">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright-reserved">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                    <div class="copyright-text">
+                        This template is made by Sreeram V Kumar contact - <i ><a href="https://www.instagram.com/sreeram.v.kumar/" class="fa fa-instagram"></a></i>
+                    </div>
+                        <div class="payment-pic">
+                            <img src="img/payment-method.png" alt>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../static/js/jquery-3.3.1.min.js"></script>
+    <script src="../static/js/bootstrap.min-index.js"></script>
+    <script src="../static/js/jquery-ui.min.js"></script>
+    <script src="../static/js/jquery.countdown.min.js"></script>
+    <script src="../static/js/jquery.nice-select.min.js"></script>
+    <script src="../static/js/jquery.zoom.min.js"></script>
+    <script src="../static/js/jquery.dd.min.js"></script>
+    <script src="../static/js/jquery.slicknav.js"></script>
+    <script src="../static/js/owl.carousel.min.js"></script>
+    <script src="../static/js/main-index.js"></script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-23581568-13');
+    </script>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v84a3a4012de94ce1a686ba8c167c359c1696973893317" integrity="sha512-euoFGowhlaLqXsPWQ48qSkBSCFs3DPRyiwVu3FjR96cMPx+Fr+gpWRhIafcHwqwCqWS42RZhIudOvEI+Ckf6MA==" data-cf-beacon='{"rayId":"82dfaf118c4df56f","b":1,"version":"2023.10.0","token":"cd0b4b3a733644fc843ef0b185f98241"}' crossorigin="anonymous"></script>    
+</body>
+</html>

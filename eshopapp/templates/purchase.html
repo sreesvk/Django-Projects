@@ -1,0 +1,54 @@
+{% extends 'sidemas.html' %}
+{% load static %}
+{% block contents %} 
+
+<section>
+    <div class="container" >
+        <div class="row">
+            <div class="col-sm-9" style="margin-bottom: 1rem;">
+                <div class="inbox02" style="background-color:rgb(237, 237, 237);padding:20px;">
+                        <h6 style="margin: 0px 0px 15px 10px;font-weight:bold;font-family:Arial, Helvetica, sans-serif;">My orders</h6>
+
+                        <table class="table">
+                            {% for x in purchsd %}
+
+                                <tr>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-sm-2">
+                                                <img src="/media/{{x.p_product_image}}" height="70px">
+                                            </div>    
+                                            <div class="col-sm-4" style="margin-top: 15px;">
+                                                {{x.p_product_name}}
+                                            </div>             
+                                            <div class="col-sm-6" style="text-align: right;font-weight: bold;margin-top: 15px;">
+                                                ₹ {{x.p_product_total}}
+                                                <div style="font-weight: normal;color: gray; margin-right: 10px;">Qty:{{x.p_product_qty}}</div>
+                                            </div>    
+                                        </div>     
+                                    </td>
+                                </tr>  
+                            {% endfor %}      
+                        </table> 
+                    
+                        <div class="row" style="text-align:end;">
+                            <div class="col-sm-12">
+                                <h6 style="margin: 15px 0px 0px 0px;">Delivery Address</h6>
+                                   <div>{{address}}</div>
+
+                                <h6 style="margin: 15px 0px 0px 0px;">Payment method</h6>
+                                    <div>{{dtype}}</div>
+                            
+                                <h6 style="margin: 15px 0px 0px 0px;"> Grand Total</h6>
+                                <span style="font-weight: bold;">₹ {{ total }}</span>
+                           </div>
+                        </div>
+
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

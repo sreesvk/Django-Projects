@@ -1,0 +1,43 @@
+{% extends 'usersidenav.html' %}
+{% load static %}
+{% block contents %}
+<div class="container">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="row">
+                {% for x in product %}
+                <div class="col-lg-3 col-md-3 col-sm-6">
+                    <div class="product-grid" style="height:450px;width:200px;">
+                        <div class="product-image">
+                            <a href="/pd/{{x.product_id}}" class="image">
+                                <img class="img-1" style="height:250px;width:200px;" src="/media/{{x.product_image}}">
+                                <img class="img-2" style="height:250px;width:200px;" src="/media/{{x.product_image}}">
+                            </a>
+                            <ul class="product-links">
+                                <li><a href="/addtolist/{{x.id}}"><i class="fa fa-heart"></i></a></li>
+                                <li><a href="/addtocart/{{x.id}}"><i class="fa fa-shopping-cart"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="product-content">
+                            <ul class="rating">
+                            </ul>
+                            <h3 class="title"><a href="#">{{x.product_name}}</a></h3>
+                            <div class="price">₹{{ x.product_price }}</div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="../static/css/usermaster.css">
+<link rel="stylesheet" href="../static/css/font-awesome.min.css">
+<script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/popper.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/main.js"></script>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v84a3a4012de94ce1a686ba8c167c359c1696973893317" integrity="sha512-euoFGowhlaLqXsPWQ48qSkBSCFs3DPRyiwVu3FjR96cMPx+Fr+gpWRhIafcHwqwCqWS42RZhIudOvEI+Ckf6MA==" data-cf-beacon='{"rayId":"82d051f7af03f3e1","b":1,"version":"2023.10.0","token":"cd0b4b3a733644fc843ef0b185f98241"}' crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">   
+{% endblock %}

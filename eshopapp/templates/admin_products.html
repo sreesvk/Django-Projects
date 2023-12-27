@@ -1,0 +1,98 @@
+{% extends 'usermaster.html' %}
+{% load static %}
+{% block content %} 
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="card shadow">
+                <h6 style="margin:20px 0px 20px 15px;">Order Summary </h6>
+            
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>color</th>
+                            <th>Price</th>
+                            <th>discription</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+        
+                    {% for x in products %}
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <img src="/media/{{x.o_product_image}}" height="70px">
+                                    </div>    
+                                    <div class="col-sm-8">
+                                        {{x.product_name}}
+                                    </div>    
+                                </div>
+                            </td>
+                            <td>{{x.product_color}}</td>
+                            <td>₹{{x.product_price}}</td>
+                            <td>{{x.product_disc}}</td>
+                            <td><a href="/deleteproduct/{{x.id}}"><div style="text-align: center;"><i class="fa fa-trash"></i></div></a></td>
+                        </tr>
+                    {% endfor %}
+                        
+                </table>
+                <div class="row" style=" margin:5px;">
+                    <div class="col-sm-6">
+                        <h6> Grand Total</h6>
+                    </div>
+                    <div class="col-sm-6">
+                        <span class="float-end" style="font-weight: bold;">₹{{ total }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9">
+                <div class="inbox4">
+                   <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Category</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            
+                            <tr>
+                                <td><img src="{% static 'uploads/' %}{{x.product_image}}" height="100px"></td>
+                                <td>{{ x.product_name }}</td>
+                                <td>{{ x.product_price }}</td>
+                                <td>
+                                    {% for y in cats %}
+                                        {% if x.product_cat == y.id %}
+                                            {{ y.cat_name }}
+                                        {% endif %}
+                                    {% endfor %}
+                                
+                                </td>
+                                <td><a href="/admineditprod/{{x.id}}">
+                                    <input type="button" class="btn btn-info btn-sm" value="Edit"></a>
+                                          
+                                <a href="/admindelprod/{{x.id}}">
+                                    <input type="button" class="btn btn-danger btn-sm remove-cart" value="Delete"></a>
+                                </td>           
+                            </tr>
+
+                            {% endfor %}
+
+
+                        </tbody> 
+                   </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

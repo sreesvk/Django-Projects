@@ -1,0 +1,85 @@
+{% extends 'usersidenav.html' %}
+{% load static %}
+{% block contents %} 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+	<link rel="stylesheet" href="../static/css/cart.css">
+	<main class="page">
+	 	<section class="shopping-cart dark">
+	 		<div class="container">
+		        <div class="block-heading">
+		          <h2>Confirm Order</h2>
+		        </div>
+		        <div class="content">
+					
+	 				<div class="row">
+	 					<div class="col-md-12 col-lg-12">
+                            <div class="card shadow">
+                                <h6 style="margin:20px 0px 20px 15px;">Order Summary </h6>
+                            
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Qty</th>
+                                            <th>Price</th>
+                                            <th>Total</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                        
+                                    {% for x in order %}
+                                        <tr>
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <img src="/media/{{x.o_product_image}}" height="70px">
+                                                    </div>    
+                                                    <div class="col-sm-8">
+                                                    {{x.o_product_name}}
+                                                    </div>    
+                                                </div>
+                                            </td>
+                                            <td>{{x.o_product_qty}}</td>
+                                            <td>₹{{x.o_product_price}}</td>
+                                            <td>₹{{x.o_product_total}}</td>
+                                            <td><a href="/deleteorder/{{x.id}}"><div style="text-align: center;"><i class="fa fa-trash"></i></div></a></td>
+                                        </tr>
+                                    {% endfor %}
+                                        
+                                </table>
+                                <div class="row" style=" margin:5px;">
+                                    <div class="col-sm-6">
+                                        <h6> Grand Total</h6>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <span class="float-end" style="font-weight: bold;">₹{{ total }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+							 
+			 			</div>
+			 			<div class="col-md-12">
+			 				<div class="summary">
+			 					<h3>Bill info</h3>
+                                <div class="summary-item"><span class="text">Delivery Address:</span><span class="price">{{address}}</span></div>
+			 					<div class="summary-item"><span class="text">Payment Method:</span><span class="price">{{del_type}}</span></div>
+			 					<div class="summary-item"><span class="text">Shipping</span><span class="price">Free</span></div>
+			 					<div class="summary-item"><span class="text">Total:</span><span class="price">₹{{total}}</span></div>			 				
+                                 <form action="/confirmed/" method="POST">
+									{% csrf_token %}
+									<button type="submit" class="btn btn-primary btn-lg btn-block" >Confirm Order</button>
+								</form>
+				 			</div>
+			 			</div>
+		 			</div> 
+		 		</div>
+	 		</div>
+		</section>
+	</main>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+{% endblock %}

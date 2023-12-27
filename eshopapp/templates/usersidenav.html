@@ -1,0 +1,44 @@
+{% extends 'masteruser.html' %}
+{% load static %}
+{% block content %}
+<!-- <div class="wrapper3 d-flex align-items-stretch">
+    <nav id="sidebar">
+        {% for x in userpic %}
+        <div class="img bg-wrap text-center py-4">
+    
+            <div class="user-logo">
+                <div class="img" style="background-image: url(/media/{{x.user_register_pic}});"></div>
+                <h3>{{x.user_register_name}}</h3>
+            </div>
+            </div>
+            {% endfor %}
+        <ul class="list-unstyled components mb-5">
+            <li>
+                <a href="/index"><span class="fa fa-heart mr-3"></span>Home</a>
+            </li>
+            <li>
+                <a href="/useraccount"><span class="fa fa-user mr-3"></span>Profile</a>
+            </li>
+            <li>
+                <a href="/logout"><span class="fa fa-sign-out mr-3"></span>Logout</a>
+            </li>
+        </ul>
+        <span style="padding-left: 5px;">CATEGORIES</span>
+        <ul class="list-unstyled components mb-5">
+            {% for x in pro_cat %}
+            <li>
+                <a href="/products/{{x.id}}"><span class="fa fa-list-alt mr-3"></span>{{x.cat_name}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </nav>
+    <div id="content">-->
+        <div style="padding-left: 10px;"> 
+            {% block contents %}
+            {% endblock %} 
+         </div>
+               
+    <!--</div>
+</div>
+<link rel="stylesheet" href="../static/css/styles.css"> -->
+{% endblock %}  

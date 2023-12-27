@@ -1,0 +1,315 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoppy</title>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/themify-icons.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/home.css" type="text/css">
+    <script src="../static/js/jquery-3.3.1.min.js"></script>
+    <script src="../static/js/bootstrap.min-index.js"></script>
+    <script src="../static/js/jquery-ui.min.js"></script>
+    <script src="../static/js/jquery.countdown.min.js"></script>
+    <script src="../static/js/jquery.nice-select.min.js"></script>
+    <script src="../static/js/jquery.zoom.min.js"></script>
+    <script src="../static/js/jquery.dd.min.js"></script>
+    <script src="../static/js/jquery.slicknav.js"></script>
+    <script src="../static/js/owl.carousel.min.js"></script>
+    <script src="../static/js/main-index.js"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-23581568-13');
+    </script>
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v84a3a4012de94ce1a686ba8c167c359c1696973893317" integrity="sha512-euoFGowhlaLqXsPWQ48qSkBSCFs3DPRyiwVu3FjR96cMPx+Fr+gpWRhIafcHwqwCqWS42RZhIudOvEI+Ckf6MA==" data-cf-beacon='{"rayId":"82dfaf118c4df56f","b":1,"version":"2023.10.0","token":"cd0b4b3a733644fc843ef0b185f98241"}' crossorigin="anonymous"></script>    
+</head>
+<body>
+    <header class="header-section">
+        <div class="header-top" style="background-color: white;">
+            <div class="container">
+                <div class="ht-left">
+                    <div class="mail-service">
+                        
+                    </div>
+                    <div class="phone-service">
+                        <i class=" fa fa-phone"></i>
+                            +91-8921457589
+                    </div>
+                </div>
+                <div class="ht-right">
+                    {% if 'user' not in request.session %}
+                        <a href="/userlogin" class="login-panel"><i class="fa fa-user"></i>Login</a>
+                    {% endif %}
+                    {% if 'user' in request.session %}
+                        <a href="/useraccount" class="login-panel"><i class="fa fa-user"></i>{{cart_user}}</a>
+                    {% endif %}
+                    <div class="lan-selector">
+                    </div>
+                    <div class="top-social">
+                        <a href="#"><i class="ti-facebook"></i></a>
+                        <a href="#"><i class="ti-twitter-alt"></i></a>
+                        <a href="#"><i class="ti-linkedin"></i></a>
+                        <a href="#"><i class="ti-pinterest"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="inner-header">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2">
+                        <div class="logo">
+                            <a href="/index">
+                            <img src="../static/img/logo.png" alt>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-7">
+                        <div class="advanced-search">
+                            <button type="button" class="category-btn">All Categories</button>
+                            <div class="input-group">
+                                <form action="/search"method="GET" >
+                                    {% csrf_token %}
+                                    <input type="text" placeholder="What do you need?" name="search" id="search" style="color: black;">
+                                    <button type="submit"><i class="ti-search"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% if 'user' in request.session %}
+                    <div class="col-lg-3 text-right col-md-3">
+                        <ul class="nav-right">
+                            <li class="cart-icon">
+                                <a href="#"><i class="icon_heart_alt"></i><span>{{listcount}}</span></a>
+                                <div class="cart-hover">
+                                    <div class="select-items">
+                                        <table>
+                                            <tbody>
+                                                {% for x in list %}
+                                                <tr>
+                                                    <td class="si-pic"><img src="/media/{{x.list_image}}" width="50px" alt></td>
+                                                    <td class="si-text">
+                                                        <div class="product-selected">
+                                                        <p>{{x.list_price}}</p>
+                                                        <h6>{{x.list_name}}</h6>
+                                                        </div>
+                                                    </td>
+                                                    <td class="si-close"><a href="/delfromlist/{{x.id}}"><i class="ti-close"></i></a></i></td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="select-button">
+                                        <a href="/wishlist" class="primary-btn view-card">VIEW WISHLIST</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="cart-icon">
+                                <a href="#"><i class="icon_bag_alt"></i><span>{{cartcount}}</span></a>
+                                <div class="cart-hover">
+                                    <div class="select-items">
+                                        <table>
+                                            <tbody>
+                                                {% for x in cart %}
+                                                <tr>
+                                                    <td class="si-pic"><img src="/media/{{x.cart_image}}" width="50px" alt></td>
+                                                    <td class="si-text">
+                                                        <div class="product-selected">
+                                                        <p>{{x.cart_price}} x {{x.cart_quantity}}</p>
+                                                        <h6>{{x.cart_name}}</h6>
+                                                        </div>
+                                                    </td>
+                                                    <td class="si-close"><a href="/delfromcart/{{x.id}}"><i class="ti-close"></i></a></i></td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="select-total">
+                                        <span>total:</span>
+                                        <h5>{{total}}</h5>
+                                    </div>
+                                    <div class="select-button">
+                                        <a href="/shoppy-cart" class="primary-btn view-card">VIEW CART</a>
+                                        <form action="/check-out/" method="POST">
+                                            {% csrf_token %}
+                                            <button type="submit" class="primary-btn checkout-btn" style="width: 100%;" >CHECK OUT</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="cart-price">{{total}}</li>
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="nav-item">
+            <div class="container">
+                <nav class="nav-menu mobile-menu">
+                    <ul>
+                        <li><a href="#" > <i class="ti-menu"></i> All Categories</a>
+                            <ul class="dropdown">
+                                {% for x in pro_cat %}
+                                <li><a href="/products/{{x.id}}">{{x.cat_name}}</a></li>
+                                {% endfor %}
+                            
+                            </ul>
+                        </li>
+                        
+                        <li><a href="index/">Home</a></li>
+                        <li><a href="/prducts/0">Shop</a></li>
+                        <li><a href="/contact/">Contact</a></li>
+                        {% if 'user' in request.session %}
+                        <li><a href="#"><i class="ti-menu"></i> My Account</a>
+                            <ul class="dropdown">
+                            <li><a href="/useraccount/">Profile</a></li>
+                            <li><a href="/purchased/">My orders</a></li>
+                            <li><a href="/shoppy-cart">My Cart</a></li>
+                            <li><a href="/logout/">Logout</a></li>
+                            </ul>
+                            </li>
+                        {% endif %}
+                        
+                        
+
+                        {% if 'user' not in request.session %}
+                        <li><a href="/userregistration/">Register</a></li>
+                        <li><a href="/userlogin/">Login</a></li>
+                        
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    {% block content %}{% endblock %}
+    <section class="latest-blog spad">
+        <div class="container">
+        <div class="benefit-items">
+            <div class="row">
+            <div class="col-lg-4">
+            <div class="single-benefit">
+            <div class="sb-icon">
+            <img src="../static/img/icon-1.png" alt>
+            </div>
+            <div class="sb-text">
+            <h6>Free Shipping</h6>
+            <p>For all order over ₹500</p>
+            </div>
+            </div>
+            </div>
+            <div class="col-lg-4">
+            <div class="single-benefit">
+            <div class="sb-icon">
+            <img src="../static/img/icon-2.png" alt>
+            </div>
+            <div class="sb-text">
+            <h6>Delivery On Time</h6>
+            <p>If good have prolems</p>
+            </div>
+            </div>
+            </div>
+            <div class="col-lg-4">
+            <div class="single-benefit">
+            <div class="sb-icon">
+            <img src="../static/img/icon-1.png" alt>
+            </div>
+            <div class="sb-text">
+            <h6>Secure Payment</h6>
+            <p>100% secure payment</p>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="footer-left">
+                        <div class="footer-logo">
+                            <a href="#"><img src="../static/img/logo.png" alt></a>
+                        </div>
+                        <ul>
+                            <li>Address: Palakkad,Kerala</li>
+                            <li>Phone: +91 8921457589</li>
+                            <li>Email: <a href="#" class="__cf_email__" >admin@shoppy.co.in</a></li>
+                        </ul>
+                        <div class="footer-social">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-pinterest"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 offset-lg-1">
+                    <div class="footer-widget">
+                        <h5>Information</h5>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="/check-out/">Checkout</a></li>
+                            <li><a href="/contact">Contact</a></li>
+                            <li><a href="#">Services</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="footer-widget">
+                        <h5>My Account</h5>
+                        <ul>
+                            <li><a href="/useraccount">My Account</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="/shoppy-cart">Shopping Cart</a></li>
+                            <li><a href="/products/0">Shop</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="newslatter-item">
+                        <h5>Join Our Newsletter Now</h5>
+                        <p>Get E-mail updates about our latest shop and special offers.</p>
+                        <form action="#" class="subscribe-form" method="post">
+                            <input type="text" placeholder="Enter Your Mail">
+                            <button type="button">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright-reserved">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                    <div class="copyright-text">
+                        This template is made by Sreeram V Kumar contact - <i ><a href="https://www.instagram.com/sreeram.v.kumar/" class="fa fa-instagram"></a></i>
+                    </div>
+                        <div class="payment-pic">
+                            <img src="../static/img/payment-method.png" alt>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

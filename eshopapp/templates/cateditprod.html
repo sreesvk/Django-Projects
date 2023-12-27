@@ -1,0 +1,36 @@
+{% extends 'foomaster.html' %}
+{% load static %}
+{% block content %} 
+
+    <section class="sec10">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="box2">
+                        <div class="inbox0">
+                            <h1 class="heading2">Edit CAT Details</h1> <br>
+                            <div style="margin-bottom: 20px;"><img src="/media/{{cat.cat_image}}" style="width: 100px;height: 100px;" alt=""></div>
+                            <form action="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <input type="hidden" name="id" value="{{cat.id}}">
+                                <label for="">Edit Cat name :</label>
+                                <input type="text" name="cat_name" value="{{cat.cat_name}}">
+                                <br><br>
+                                <label for="">Cat product no :</label>
+                                <input type="text" name="cat_product_no" value="{{cat.cat_product_no}}">
+                                <br><br>
+                                
+                                <label for="">Edit Cat image :</label>
+                                <input type="file" name="cat_image" value="{{cat.cat__image}}">
+                                <br><br>
+                                <button type="submit" class="btn btn-dark loginbtn">Upload</button>
+                                <br><br>
+                            </div>       
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+{% endblock %}
